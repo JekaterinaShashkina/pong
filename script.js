@@ -7,9 +7,10 @@ const ball = new Ball(document.getElementById("ball"));
 const bottomPaddle = new Paddle(document.getElementById("bottom-paddle"));
 let brick = { rows: 5, cols: 10, width: 100, height: 30 };
 const playerScoreElem = document.getElementById("player-score");
-const computerScoreElem = document.getElementById("computer-score");
+const timer = document.getElementById("timer");
 let brickField = [];
 let lastTime;
+let currentTime = 0;
 
 function initBricks() {
   brickField = [];
@@ -46,20 +47,25 @@ const drawBricks = () => {
 };
 
 drawBricks();
+
 //* update loop
 function update(time) {
   if (lastTime != null) {
     const delta = time - lastTime;
+
     //*update code
     ball.update(delta, [bottomPaddle.rect()]);
-    // computerPaddle.update(delta, ball.y);
     initBricks();
     const hue = parseFloat(
       getComputedStyle(document.documentElement).getPropertyValue("--hue")
     );
     document.documentElement.style.setProperty("--hue", hue + delta * 0.01);
+    currentTime = currentTime + 1 / 100;
+    timer.textContent = "TIME: " + Math.floor(currentTime);
 
-    if (isLose()) handleLose();
+    if (isLose()) {
+      handleLose();
+    }
   }
 
   lastTime = time;
@@ -69,18 +75,12 @@ function update(time) {
 function isLose() {
   const rect = ball.rect();
   return rect.bottom >= window.innerHeight;
-  //return rect.right >= window.innerWidth || rect.left <= 0;
 }
 
 function handleLose() {
-  // const rect = ball.rect();
-  // if (rect.right >= window.innerWidth) {
-  //   playerScoreElem.textContent = parseInt(playerScoreElem.textContent) + 1;
-  // } else {
-  //   computerScoreElem.textContent = parseInt(computerScoreElem.textContent) + 1;
-  // }
   ball.reset();
-  // computerPaddle.reset();
+  currentTime = 0;
+  timer.textContent = "TIME: " + 0;
 }
 
 document.addEventListener("mousemove", (e) => {
