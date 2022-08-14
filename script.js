@@ -1,7 +1,7 @@
 import Ball from "./Ball.js";
 import Paddle from "./Paddle.js";
 
-const bricks = document.querySelector(".bricks");
+const allBlocks = document.querySelector(".bricks");
 const ball = new Ball(document.getElementById("ball"));
 // const playerPaddle = new Paddle(document.getElementById("player-paddle"));
 //const computerPaddle = new Paddle(document.getElementById("computer-paddle"));
@@ -44,9 +44,7 @@ const drawBricks = () => {
     block.style.backgroundColor = brickField[i].color;
     block.style.left = brickField[i].x + "px";
     block.style.top = brickField[i].y + "px";
-
-    console.log(block);
-    bricks.append(block);
+    allBlocks.append(block);
   }
 };
 
@@ -91,7 +89,17 @@ document.addEventListener("mousemove", (e) => {
   // console.log(e);
   bottomPaddle.position = (e.x / window.innerWidth) * 100;
   //playerPaddle.position = (e.y / window.innerHeight) * 100;
-  // console.log(bottomPaddle.position);
+});
+
+document.addEventListener("keydown", (e) => {
+  console.log(bottomPaddle.position);
+  switch (e.key) {
+    case "ArrowLeft":
+      bottomPaddle.position -= 1;
+      console.log(e);
+    case "ArrowRight":
+      bottomPaddle.position += 1;
+  }
 });
 
 window.requestAnimationFrame(update);
