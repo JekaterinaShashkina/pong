@@ -69,6 +69,15 @@ body {
 
 .block {
   position: absolute;
+  padding-right: 10px;
   width: 100px;
   height: 20px;
+  border: 3px solid black;
+}
+
+.bricks {
+  position: relative;
+  max-width: 1400px;
+  height: 400px;
+  margin: 0 auto;
 }

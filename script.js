@@ -1,6 +1,7 @@
 import Ball from "./Ball.js";
 import Paddle from "./Paddle.js";
 
+const bricks = document.querySelector(".bricks");
 const ball = new Ball(document.getElementById("ball"));
 // const playerPaddle = new Paddle(document.getElementById("player-paddle"));
 //const computerPaddle = new Paddle(document.getElementById("computer-paddle"));
@@ -20,13 +21,13 @@ function initBricks() {
   for (let row = 0; row < brick.rows; row++) {
     for (let col = 0; col < brick.cols; col++) {
       brickField.push({
-        x: col * brick.width,
+        x: col * brick.width + 120,
         y: row * brick.height + topMargin,
         height: brick.height,
         width: brick.width,
         color: colors[row],
-        points: (5 - row) * 2,
-        hitsLeft: row === 0 ? 2 : 1,
+        // points: (5 - row) * 2,
+        // hitsLeft: row === 0 ? 2 : 1,
       });
     }
   }
@@ -41,8 +42,11 @@ const drawBricks = () => {
     block.height = brickField[i].height;
     block.width = brickField[i].width;
     block.style.backgroundColor = brickField[i].color;
+    block.style.left = brickField[i].x + "px";
+    block.style.top = brickField[i].y + "px";
 
-    console.log(brickField[i]);
+    console.log(block);
+    bricks.append(block);
   }
 };
 
