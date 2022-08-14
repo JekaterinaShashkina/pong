@@ -51,7 +51,7 @@ function update(time) {
   if (lastTime != null) {
     const delta = time - lastTime;
     //*update code
-    // ball.update(delta, [bottomPaddle.rect()]);
+    ball.update(delta, [bottomPaddle.rect()]);
     // computerPaddle.update(delta, ball.y);
     initBricks();
     const hue = parseFloat(
