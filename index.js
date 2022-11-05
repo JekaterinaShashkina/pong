@@ -119,9 +119,9 @@ const checkBlockCollisions = () => {
       console.log(brickField[i]);
       console.log(ballCurrentPos);
       const allBlocks = Array.from(document.querySelectorAll(".block"));
-      console.log(allBlocks[i]);
+      console.log(allBlocks);
       allBlocks[i].classList.remove("block");
-      //brickField.splice(i, 1);
+      brickField.splice(i, 1);
       score++;
       playerScoreElem.innerHTML = "SCORE: " + score;
     }
