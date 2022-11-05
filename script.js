@@ -12,6 +12,7 @@ const timer = document.getElementById("timer");
 let brickField = [];
 let lastTime;
 let currentTime = 0;
+let score = 0;
 
 function initBricks() {
   brickField = [];
@@ -26,8 +27,8 @@ function initBricks() {
         height: brick.height,
         width: brick.width,
         color: colors[row],
-        // points: (5 - row) * 2,
-        // hitsLeft: row === 0 ? 2 : 1,
+        points: (5 - row) * 2,
+        hitsLeft: row === 0 ? 2 : 1,
       });
     }
   }
@@ -61,6 +62,7 @@ function update(time) {
     const hue = parseFloat(
       getComputedStyle(document.documentElement).getPropertyValue("--hue")
     );
+    checkBlockCollisions();
     document.documentElement.style.setProperty("--hue", hue + delta * 0.01);
     currentTime = currentTime + 1 / 100;
     timer.textContent = "TIME: " + Math.floor(currentTime);
@@ -92,14 +94,46 @@ document.addEventListener("mousemove", (e) => {
 });
 
 document.addEventListener("keydown", (e) => {
-  console.log(bottomPaddle.position);
+  //console.log(bottomPaddle.position);
   switch (e.key) {
     case "ArrowLeft":
       bottomPaddle.position -= 1;
-      console.log(e);
+      break;
     case "ArrowRight":
       bottomPaddle.position += 1;
+      break;
   }
 });
 
 window.requestAnimationFrame(update);
+
+const checkBlockCollisions = () => {
+  const ballCurrentPos = ball.rect();
+  for (let i = 0; i < brickField.length; i++) {
+    if (
+      ballCurrentPos.top <= brickField[i].y &&
+      ballCurrentPos.bottom <= brickField[i].y + brickField[i].height &&
+      ballCurrentPos.left >= brickField[i].x &&
+      ballCurrentPos.right <= brickField[i].x + brickField[i].width
+    ) {
+      console.log(brickField[i]);
+      console.log(ballCurrentPos);
+      const allBlocks = Array.from(document.querySelectorAll(".block"));
+      console.log(allBlocks[i]);
+      allBlocks[i].classList.remove("block");
+      //brickField.splice(i, 1);
+      score++;
+      playerScoreElem.innerHTML = "SCORE: " + score;
+    }
+  }
+  //console.log(ballCurrentPos);
+};
+
+// const detectBrickCollision = () => {
+//   const ballCurrentPos = ball.rect();
+//   const isBallInsideBrick = (brick) =>
+//     ballCurrentPos.x + 2 * ballCurrentPos.radius > brick.x &&
+//     ballCurrentPos.x < brick.x + brick.width &&
+//     ballCurrentPos.y + 2 * ballCurrentPos.radius > brick.y &&
+//     ballCurrentPos.y < brick.y + brick.height;
+// };
